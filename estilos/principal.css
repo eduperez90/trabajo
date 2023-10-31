@@ -1,0 +1,136 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#cabecera {
+    display: flex;
+    align-items: center;
+    background-color: #2b2a28;
+    height: 150px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.6);
+}
+
+#titulo {
+    flex: 1;
+}
+
+#logo {
+    display: block;
+}
+
+#botones {
+    display: block;
+    margin-right: 40px;
+}
+
+#t1 {
+    margin-left: 40px;
+    color: white;
+    font-size: 125px;
+}
+
+#inicio {
+    height: 50px;
+    width: 150px;
+    font-size: 20px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: rgb(64, 64, 249, 0.6);
+    color: white;
+}
+
+#imlogo {
+    height: 140px;
+    width: 150px;
+}
+
+#fondo {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+}
+
+#carta,
+#reserva,
+#pedir {
+    flex: 1;
+    text-align: center;
+    margin: 30px;
+    padding: 30px;
+    height: 200px;
+    background-repeat: no-repeat;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.6);
+    border-radius: 20px;
+}
+
+#carta {
+    height: 200px;
+    background-image: url("../imagenes/cartas.jpg");
+    background-repeat: no-repeat;
+    text-align: center;
+}
+
+#reserva {
+    height: 200px;
+    background-image: url("../imagenes/reservas.jpg");
+    background-repeat: no-repeat;
+    background-color: white;
+}
+
+#pedir {
+    height: 200px;
+    background-image: url("../imagenes/pedidos.jpg");
+    background-repeat: no-repeat;
+    background-color: white;
+}
+
+#pie {
+    background-color: #2b2a28;
+    height: auto;
+    box-shadow: 0px -5px 10px rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#imcarta {
+    height: 100px;
+    width: 150px;
+}
+
+#tcarta,
+#treserva,
+#tpedido {
+    margin-top: 180px;
+}
+
+#carta:hover,
+#reserva:hover,
+#pedir:hover {
+    height: 205px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 255, 0.6);
+}
+
+svg {
+    padding: 20px;
+    height: 40px;
+    width: 40px;
+}
+
+#inicio:hover {
+    background-color: rgb(193, 193, 252);
+    color: black;
+}
+
+a {
+    flex: 1;
+    text-align: center;
+    margin: 30px;
+    padding: 30px;
+    text-decoration: none;
+    color: inherit;
+}
