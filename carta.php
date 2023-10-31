@@ -1,3 +1,6 @@
+<?php include 'conexion.php';
+    conectar();
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -5,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby Food</title>
-    <link rel="stylesheet" type="text/css" href="./estilos/nuevousuario.css">
+    <link rel="stylesheet" type="text/css" href="./estilos/principal.css">
 </head>
 
 <body>
@@ -17,48 +20,25 @@
             <h1 id="t1">Lobby Food</h1>
         </div>
         <div id="botones">
+            <div id="login">
+
+            </div>
         </div>
     </div>
     <div id="fondo">
-        <div id="divlogin">
-            <form id="loginForm" method="POST" action="login.php">
-                <img src="./imagenes/añadirusuarios.png" id="imgLogin">
-
-                <div>
-                    <label for="usuario">Usuario:</label>
-                    <input type="text" id="usuario" name="usuario" required placeholder="usuario / email"><br>
-                </div>
-
-                <div>
-                    <label for="pass">Contraseña:</label>
-                    <input type="password" id="pass" name="pass" required placeholder="********"><br>
-                </div>
-
-                <div>
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" required placeholder="Jhon"><br>
-                </div>
-
-                <div>
-                    <label for="apellido">Apellido:</label>
-                    <input type="text" id="apellido" name="apellido" required placeholder="Doe"><br>
-                </div>
-
-                <div>
-                    <label for="tlf">Telefono:</label>
-                    <input type="number" id="tlf" name="tlf" required placeholder="666-333-999"><br>
-                </div>
-
-                <div>
-                    <label for="emal">Email:</label>
-                    <input type="email" id="email" name="email" required placeholder="jhon.doe@gmail.com"><br>
-                </div>
-
-                <div class="button-container">
-                    <input type="submit" value="ENVIAR"> <input type="reset" value="BORRAR">
-                </div>
-              
-            </form>
+        <div id="menu">
+            <table>
+            <?php
+                $query = "SELECT plato FROM edu_proyecto.menu";
+                $resultado = mysqli_query($c, $query); // Utilizamos $c en lugar de $conexion
+                while ($fila = mysqli_fetch_assoc($resultado)) {
+                    echo "<tr><td>" . $fila['plato'] . "</td></tr>"; // Agregamos las etiquetas <tr> y <td>
+                }
+                ?>
+            </table>
+        </div>
+        <div id="foto">
+            <img src="#" id="fotomenu">
         </div>
     </div>
     <div id="pie">
@@ -165,9 +145,6 @@
             </svg>
         </div>
     </div>
-</body>
-
-</html>
 </body>
 
 </html>

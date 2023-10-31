@@ -126,7 +126,7 @@ svg {
     color: black;
 }
 
-a {
+#fondoa {
     flex: 1;
     text-align: center;
     margin: 30px;
