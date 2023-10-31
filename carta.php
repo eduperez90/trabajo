@@ -1,5 +1,5 @@
 <?php include 'conexion.php';
-    conectar();
+   $c = conectar();
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby Food</title>
-    <link rel="stylesheet" type="text/css" href="./estilos/principal.css">
+    <link rel="stylesheet" type="text/css" href="./estilos/carta.css">
 </head>
 
 <body>
@@ -26,20 +26,39 @@
         </div>
     </div>
     <div id="fondo">
+    <div id=contmenu></div>
         <div id="menu">
-            <table>
-            <?php
-                $query = "SELECT plato FROM edu_proyecto.menu";
-                $resultado = mysqli_query($c, $query); // Utilizamos $c en lugar de $conexion
-                while ($fila = mysqli_fetch_assoc($resultado)) {
-                    echo "<tr><td>" . $fila['plato'] . "</td></tr>"; // Agregamos las etiquetas <tr> y <td>
-                }
-                ?>
+            <table border=1>
+                <thead>
+                    <tr>
+                        <?php
+                            $query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'proyecto_php_edu' AND TABLE_NAME = 'menu' AND COLUMN_NAME != 'id_menu'";
+                            $resultado = mysqli_query($c, $query);
+                            while ($fila = mysqli_fetch_assoc($resultado)) {
+                            echo "<th>" . $fila['COLUMN_NAME'] . "</th>";
+                            }
+                        ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $query = "SELECT plato, descripcion, precio FROM proyecto_php_edu.menu";
+                        $resultado = mysqli_query($c, $query);
+                        while ($fila = mysqli_fetch_assoc($resultado)) {
+                        echo "<tr>";
+                        echo "<td>" . $fila['plato'] . "</td>";
+                        echo "<td>" . $fila['descripcion'] . "</td>";
+                        echo "<td>" . $fila['precio'] . "</td>";
+                        echo "</tr>";
+                        }
+                    ?>
+                </tbody>
             </table>
         </div>
         <div id="foto">
-            <img src="#" id="fotomenu">
+            <img src="./imagenes/menucomida.png" id="fotomenu">
         </div>
+     </div>    
     </div>
     <div id="pie">
         <div id="iconos">
