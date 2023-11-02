@@ -44,6 +44,15 @@ body {
     justify-content: center;
 }
 
+#botones {
+    display: block;
+    margin-right: 40px;
+}
+
+#pcorreo{
+    color: white;  
+} 
+
 svg {
     padding: 20px;
     height: 40px;
@@ -54,11 +63,6 @@ svg {
     flex-grow: 1;
     display: flex;
     align-items: center;
-}
-
-#botones {
-    display: block;
-    margin-right: 40px;
 }
 
 #menu {
@@ -74,10 +78,5 @@ svg {
 
 a {
     text-decoration: none;
-}
-
-#pcorreo{
-    color: white;
-    
 }
 

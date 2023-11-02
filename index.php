@@ -9,15 +9,23 @@
 <body>
     <div id="cabecera">       
         <div id="logo">
-            <a href="index.html"><img src="./imagenes/logo.png" id="imlogo"></a>
+            <a href="index.php"><img src="./imagenes/logo.png" id="imlogo"></a>
         </div>
         <div id="titulo">
             <h1 id="t1">Lobby Food</h1>
         </div>
         <div id="botones">
-            <div id="login">
-                <a href="login.html"><input type="button" id="inicio" value="Inicio Sesion"></a>
-            </div>
+            <?php
+            session_start();
+            if (isset($_SESSION['correo'])) {
+                $correo = $_SESSION['correo'];
+                echo "<div id='correo'><a href='login.php'><p id='pcorreo'>$correo</p></a></div>";
+            } else {
+                echo "<div id='login'>
+                        <a href='login.php'><input type='button' id='inicio' value='Inicio Sesion'></a>
+                    </div>";
+            }
+            ?>
         </div>
     </div>
     <div id="fondo">
@@ -26,12 +34,12 @@
                 <h1 id="tcarta">Carta</h1>
             </div>
         </a>
-        <a href="otra_pagina2.html" id="fondoa">
+        <a href="reservas.php" id="fondoa">
             <div id="reserva">
                 <h1 id="treserva">Reservas</h1>
             </div>
         </a>
-        <a href="otra_pagina3.html" id="fondoa">
+        <a href="pedidos.php" id="fondoa">
             <div id="pedir">
                 <h1 id="tpedido">Hacer Pedido</h1>
             </div>

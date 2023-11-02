@@ -1,6 +1,3 @@
-<?php include 'conexion.php';
-   $c = conectar();
-?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -8,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby Food</title>
-    <link rel="stylesheet" type="text/css" href="./estilos/carta.css">
+    <link rel="stylesheet" type="text/css" href="./estilos/reservas.css">
 </head>
 
 <body>
@@ -19,9 +16,8 @@
         <div id="titulo">
             <h1 id="t1">Lobby Food</h1>
         </div>
-        
         <div id="botones">
-            <?php
+        <?php
             session_start();
             if (isset($_SESSION['correo'])) {
                 $correo = $_SESSION['correo'];
@@ -31,43 +27,47 @@
                         <a href='login.html'><input type='button' id='inicio' value='Inicio Sesion'></a>
                     </div>";
             }
-            ?>       
+            ?>
         </div>
     </div>
     <div id="fondo">
-    <div id=contmenu></div>
-        <div id="menu">
-            <table border=1 id="mitabla">
-                <thead bgcolor="grey">
-                    <tr>
-                        <?php
-                            $query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'proyecto_php_edu' AND TABLE_NAME = 'menu' AND COLUMN_NAME != 'id_menu'";
-                            $resultado = mysqli_query($c, $query);
-                            while ($fila = mysqli_fetch_assoc($resultado)) {
-                            echo "<th>" . $fila['COLUMN_NAME'] . "</th>";
-                            }
-                        ?>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                        $query = "SELECT plato, descripcion, precio FROM proyecto_php_edu.menu";
-                        $resultado = mysqli_query($c, $query);
-                        while ($fila = mysqli_fetch_assoc($resultado)) {
-                        echo "<tr>";
-                        echo "<td>" . $fila['plato'] . "</td>";
-                        echo "<td>" . $fila['descripcion'] . "</td>";
-                        echo "<td>" . $fila['precio'] . "</td>";
-                        echo "</tr>";
+        <div id="reserva">
+            <form id="reservaform" method="POST" action="reservasaction.php">
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha" name="fecha"><br> <br>              
+                
+                <label for="numeroPersonas">Número de personas:</label>
+                <input type="text" id="numeroPersonas" name="numeroPersonas" value="1" readonly>
+                    
+                <button type="button" onclick="incrementar()">+</button>
+                <button type="button" onclick="decrementar()">-</button><br><br>
+                
+                <script>
+                    function incrementar() {
+                        var input = document.getElementById("numeroPersonas");
+                        var valor = parseInt(input.value);
+                        input.value = valor + 1;
+                    }
+
+                    function decrementar() {
+                        var input = document.getElementById("numeroPersonas");
+                        var valor = parseInt(input.value);
+                        if (valor > 1) {
+                            input.value = valor - 1;
                         }
-                    ?>
-                </tbody>
-            </table>
+                    }
+                </script>
+
+                <label for="emal">Email:</label>
+                <input type="email" id="email" name="email" required placeholder="jhon.doe@gmail.com"><br>
+                
+                <br><br>
+                <button type="submit">Reservar</button>
+            </form>
         </div>
-        <div id="foto">
-            <img src="./imagenes/menucomidas.png" id="fotomenu">
+        <div id="logoreserva">
+            <img src="./imagenes/reserva_calendarios.png">
         </div>
-     </div>    
     </div>
     <div id="pie">
         <div id="iconos">

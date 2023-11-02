@@ -1,25 +1,50 @@
-<?php include 'conexion.php';
-   $c = conectar();
+<?php
+include 'conexion.php';
+$c = conectar();
+
+if(isset($_POST['modificar'])){
+    $id_menu = $_POST['id_menu'];
+    $plato = $_POST['plato'];
+    $descripcion = $_POST['descripcion'];
+    $precio = $_POST['precio'];
+
+    $query = "UPDATE proyecto_php_edu.menu SET plato='$plato', descripcion='$descripcion', precio='$precio' WHERE id_menu='$id_menu'";
+    mysqli_query($c, $query);
+}
+
+if(isset($_POST['eliminar'])){
+    $id_menu = $_POST['id_menu'];
+    $query = "DELETE FROM proyecto_php_edu.menu WHERE id_menu='$id_menu'";
+    mysqli_query($c, $query);
+}
+
+if(isset($_POST['insertar'])){
+    $plato = $_POST['plato'];
+    $descripcion = $_POST['descripcion'];
+    $precio = $_POST['precio'];
+
+    $query = "INSERT INTO proyecto_php_edu.menu (plato, descripcion, precio) VALUES ('$plato', '$descripcion', '$precio')";
+    mysqli_query($c, $query);
+}
+
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby Food</title>
     <link rel="stylesheet" type="text/css" href="./estilos/carta.css">
 </head>
-
 <body>
     <div id="cabecera">
         <div id="logo">
-            <a href="index.php"><img src="./imagenes/logo.png" id="imlogo"></a>
+            <a href="indexempleado.php"><img src="./imagenes/logo.png" id="imlogo"></a>
         </div>
         <div id="titulo">
             <h1 id="t1">Lobby Food</h1>
         </div>
-        
         <div id="botones">
             <?php
             session_start();
@@ -39,28 +64,39 @@
         <div id="menu">
             <table border=1 id="mitabla">
                 <thead bgcolor="grey">
-                    <tr>
-                        <?php
-                            $query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'proyecto_php_edu' AND TABLE_NAME = 'menu' AND COLUMN_NAME != 'id_menu'";
-                            $resultado = mysqli_query($c, $query);
-                            while ($fila = mysqli_fetch_assoc($resultado)) {
-                            echo "<th>" . $fila['COLUMN_NAME'] . "</th>";
-                            }
-                        ?>
+                    <tr>                    
+                        <th>MENU</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                        $query = "SELECT plato, descripcion, precio FROM proyecto_php_edu.menu";
+                        $query = "SELECT id_menu, plato, descripcion, precio FROM proyecto_php_edu.menu";
                         $resultado = mysqli_query($c, $query);
                         while ($fila = mysqli_fetch_assoc($resultado)) {
                         echo "<tr>";
-                        echo "<td>" . $fila['plato'] . "</td>";
-                        echo "<td>" . $fila['descripcion'] . "</td>";
-                        echo "<td>" . $fila['precio'] . "</td>";
+                        echo "<td>
+                                <form method='post' action=''>
+                                    <input type='hidden' name='id_menu' value='" . $fila['id_menu'] . "'>
+                                    <input type='text' name='plato' value='" . $fila['plato'] . "'>
+                                    <input type='text' name='descripcion' value='" . $fila['descripcion'] . "'>
+                                    <input type='text' name='precio' value='" . $fila['precio'] . "'>
+                                    <input type='submit' name='modificar' value='Modificar'>
+                                    <input type='submit' name='eliminar' value='Eliminar'>
+                                </form>
+                              </td>";
                         echo "</tr>";
                         }
                     ?>
+                    <tr>
+                        <td>
+                            <form method='post' action=''>
+                                <input type='text' name='plato' placeholder='Plato'>
+                                <input type='text' name='descripcion' placeholder='Descripción'>
+                                <input type='text' name='precio' placeholder='Precio'>
+                                <input type='submit' name='insertar' value='Insertar'>
+                            </form>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

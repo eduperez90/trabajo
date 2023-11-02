@@ -39,7 +39,7 @@ body {
     font-size: 20px;
     border-radius: 5px;
     margin-bottom: 10px;
-    background-color: rgb(64, 64, 249, 0.6);
+    background-color: rgba(64, 64, 249, 0.6);
     color: white;
 }
 
@@ -56,36 +56,17 @@ body {
 
 #carta,
 #reserva,
-#pedir {
-    flex: 1;
+#pedir,
+#clientes,
+#empleados {
     text-align: center;
-    margin: 30px;
+    margin: 0px;
     padding: 30px;
     height: 200px;
     background-repeat: no-repeat;
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.6);
     border-radius: 20px;
-}
-
-#carta {
-    height: 200px;
-    background-image: url("../imagenes/cartas.jpg");
-    background-repeat: no-repeat;
-    text-align: center;
-}
-
-#reserva {
-    height: 200px;
-    background-image: url("../imagenes/reservas.jpg");
-    background-repeat: no-repeat;
-    background-color: white;
-}
-
-#pedir {
-    height: 200px;
-    background-image: url("../imagenes/pedidos.jpg");
-    background-repeat: no-repeat;
-    background-color: white;
+    flex: 1;
 }
 
 #pie {
@@ -102,15 +83,11 @@ body {
     width: 150px;
 }
 
-#tcarta,
-#treserva,
-#tpedido {
-    margin-top: 180px;
-}
-
 #carta:hover,
 #reserva:hover,
-#pedir:hover {
+#pedir:hover,
+#clientes:hover,
+#empleados:hover {
     height: 205px;
     box-shadow: 0px 5px 10px rgba(0, 0, 255, 0.6);
 }
@@ -137,6 +114,4 @@ svg {
 
 #pcorreo{
     color: white;
-    
 }
-

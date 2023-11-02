@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby Food</title>
-    <link rel="stylesheet" type="text/css" href="./estilos/carta.css">
+    <link rel="stylesheet" type="text/css" href="./estilos/pedidos.css">
 </head>
 
 <body>
@@ -28,7 +28,7 @@
                 echo "<div id='correo'><a href='login.php'><p id='pcorreo'>$correo</p></a></div>";
             } else {
                 echo "<div id='login'>
-                        <a href='login.html'><input type='button' id='inicio' value='Inicio Sesion'></a>
+                        <a href='login.php'><input type='button' id='inicio' value='Inicio Sesion'></a>
                     </div>";
             }
             ?>       
@@ -37,35 +37,50 @@
     <div id="fondo">
     <div id=contmenu></div>
         <div id="menu">
+        <form id="pedidosform" method="POST" action="pedidosaction.php">
+            <label for="emal">Email:</label>
+            <input type="email" id="email" name="email" required placeholder="jhon.doe@gmail.com">
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha">
+
+            <input type="radio" id="tomar" name="opcion" value="1">
+            <label for="opcion1">Domicilio</label>
+            <input type="radio" id="opcion2" name="opcion" value="0">
+            <label for="opcion2">Recoger</label><br>
+
             <table border=1 id="mitabla">
-                <thead bgcolor="grey">
-                    <tr>
-                        <?php
-                            $query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'proyecto_php_edu' AND TABLE_NAME = 'menu' AND COLUMN_NAME != 'id_menu'";
-                            $resultado = mysqli_query($c, $query);
-                            while ($fila = mysqli_fetch_assoc($resultado)) {
-                            echo "<th>" . $fila['COLUMN_NAME'] . "</th>";
-                            }
-                        ?>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                        $query = "SELECT plato, descripcion, precio FROM proyecto_php_edu.menu";
-                        $resultado = mysqli_query($c, $query);
-                        while ($fila = mysqli_fetch_assoc($resultado)) {
-                        echo "<tr>";
-                        echo "<td>" . $fila['plato'] . "</td>";
-                        echo "<td>" . $fila['descripcion'] . "</td>";
-                        echo "<td>" . $fila['precio'] . "</td>";
-                        echo "</tr>";
-                        }
-                    ?>
-                </tbody>
-            </table>
+    <thead bgcolor="grey">
+        <tr>
+            <?php
+                $query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'proyecto_php_edu' AND TABLE_NAME = 'menu' AND COLUMN_NAME != 'id_menu'";
+                $resultado = mysqli_query($c, $query);
+                while ($fila = mysqli_fetch_assoc($resultado)) {
+                    echo "<th>" . $fila['COLUMN_NAME'] . "</th>";
+                }
+                echo "<th>Cantidad</th>"; // Nueva columna para seleccionar la cantidad
+            ?>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+            $query = "SELECT plato, descripcion, precio FROM proyecto_php_edu.menu";
+            $resultado = mysqli_query($c, $query);
+            while ($fila = mysqli_fetch_assoc($resultado)) {
+                echo "<tr>";
+                echo "<td>" . $fila['plato'] . "</td>";
+                echo "<td>" . $fila['descripcion'] . "</td>";
+                echo "<td>" . $fila['precio'] . "</td>";
+                echo "<td><input type='number' name='cantidad[]' min='0' max='10'></td>"; // Campo de entrada para la cantidad
+                echo "</tr>";
+            }
+        ?>
+    </tbody>
+</table>
+            <button type="submit">Pagar</button>
+        </form>
         </div>
         <div id="foto">
-            <img src="./imagenes/menucomidas.png" id="fotomenu">
+            <img src="./imagenes/carito.jpg" id="fotomenu">
         </div>
      </div>    
     </div>

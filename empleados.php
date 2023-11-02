@@ -1,65 +1,106 @@
+<?php
+include 'conexion.php';
+$c = conectar();
+if(isset($_POST['modificar'])){
+    $id_empleado = $_POST['id_empleado'];
+    $nombre = $_POST['nombre'];
+    $telefono = $_POST['telefono'];
+    $email = $_POST['email'];
+    $cargo = $_POST['cargo'];
+    $query = "UPDATE proyecto_php_edu.empleados SET nombre='$nombre', telefono='$telefono', email='$email', cargo='$cargo' WHERE id_empleado='$id_empleado'";
+    mysqli_query($c, $query);
+}
+if(isset($_POST['eliminar'])){
+    $id_empleado = $_POST['id_empleado'];
+    $query = "DELETE FROM proyecto_php_edu.empleados WHERE id_empleado='$id_empleado'";
+    mysqli_query($c, $query);
+}
+if(isset($_POST['insertar'])){
+    $nombre = $_POST['nombre'];
+    $telefono = $_POST['telefono'];
+    $email = $_POST['email'];
+    $cargo = $_POST['cargo'];
+    $query = "INSERT INTO proyecto_php_edu.empleados (nombre, telefono, email, cargo) VALUES ('$nombre', '$telefono', '$email', '$cargo')";
+    mysqli_query($c, $query);
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby Food</title>
-    <link rel="stylesheet" type="text/css" href="./estilos/nuevousuario.css">
+    <link rel="stylesheet" type="text/css" href="./estilos/carta.css">
 </head>
-
 <body>
     <div id="cabecera">
         <div id="logo">
-            <a href="index.html"><img src="./imagenes/logo.png" id="imlogo"></a>
+            <a href="indexempleado.php"><img src="./imagenes/logo.png" id="imlogo"></a>
         </div>
         <div id="titulo">
             <h1 id="t1">Lobby Food</h1>
         </div>
         <div id="botones">
+            <?php
+            session_start();
+            if (isset($_SESSION['correo'])) {
+                $correo = $_SESSION['correo'];
+                echo "<div id='correo'><a href='login.php'><p id='pcorreo'>$correo</p></a></div>";
+            } else {
+                echo "<div id='login'>
+                        <a href='login.html'><input type='button' id='inicio' value='Inicio Sesion'></a>
+                    </div>";
+            }
+            ?>       
         </div>
     </div>
     <div id="fondo">
-        <div id="divlogin">
-            <form id="loginForm" method="POST" action="login.php">
-                <img src="./imagenes/añadirusuarios.png" id="imgLogin">
-
-                <div>
-                    <label for="usuario">Usuario:</label>
-                    <input type="text" id="usuario" name="usuario" required placeholder="usuario / email"><br>
-                </div>
-
-                <div>
-                    <label for="pass">Contraseña:</label>
-                    <input type="password" id="pass" name="pass" required placeholder="********"><br>
-                </div>
-
-                <div>
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" required placeholder="Jhon"><br>
-                </div>
-
-                <div>
-                    <label for="apellido">Apellido:</label>
-                    <input type="text" id="apellido" name="apellido" required placeholder="Doe"><br>
-                </div>
-
-                <div>
-                    <label for="tlf">Telefono:</label>
-                    <input type="number" id="tlf" name="tlf" required placeholder="666-333-999"><br>
-                </div>
-
-                <div>
-                    <label for="emal">Email:</label>
-                    <input type="email" id="email" name="email" required placeholder="jhon.doe@gmail.com"><br>
-                </div>
-
-                <div class="button-container">
-                    <input type="submit" value="ENVIAR"> <input type="reset" value="BORRAR">
-                </div>
-              
-            </form>
+    <div id=contmenu></div>
+        <div id="menu">
+            <table border=1 id="mitabla">
+                <thead bgcolor="grey">
+                    <tr>                    
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $query = "SELECT id_empleado, nombre, telefono, email, cargo FROM proyecto_php_edu.empleados";
+                        $resultado = mysqli_query($c, $query);
+                        while ($fila = mysqli_fetch_assoc($resultado)) {
+                        echo "<tr>";
+                        echo "<td>
+                                <form method='post' action=''>
+                                    <input type='hidden' name='id_empleado' value='" . $fila['id_empleado'] . "'>
+                                    <input type='text' name='nombre' value='" . $fila['nombre'] . "'>
+                                    <input type='text' name='telefono' value='" . $fila['telefono'] . "'>
+                                    <input type='text' name='email' value='" . $fila['email'] . "'>
+                                    <input type='text' name='cargo' value='" . $fila['cargo'] . "'>
+                                    <input type='submit' name='modificar' value='Modificar'>
+                                    <input type='submit' name='eliminar' value='Eliminar'>
+                                </form>
+                              </td>";
+                        echo "</tr>";
+                        }
+                    ?>
+                    <tr>
+                        <td>
+                            <form method='post' action=''>
+                                <input type='text' name='nombre' placeholder='Nombre'>
+                                <input type='text' name='telefono' placeholder='Teléfono'>
+                                <input type='text' name='email' placeholder='Email'>
+                                <input type='text' name='cargo' placeholder='Cargo'>
+                                <input type='submit' name='insertar' value='Insertar'>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+        <div id="foto">
+            <img src="./imagenes/menucomidas.png" id="fotomenu">
+        </div>
+     </div>    
     </div>
     <div id="pie">
         <div id="iconos">
@@ -165,9 +206,6 @@
             </svg>
         </div>
     </div>
-</body>
-
-</html>
 </body>
 
 </html>

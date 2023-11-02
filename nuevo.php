@@ -1,6 +1,3 @@
-<?php include 'conexion.php';
-   $c = conectar();
-?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -8,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby Food</title>
-    <link rel="stylesheet" type="text/css" href="./estilos/carta.css">
+    <link rel="stylesheet" type="text/css" href="./estilos/nuevo.css">
 </head>
 
 <body>
@@ -19,55 +16,40 @@
         <div id="titulo">
             <h1 id="t1">Lobby Food</h1>
         </div>
-        
         <div id="botones">
-            <?php
-            session_start();
-            if (isset($_SESSION['correo'])) {
-                $correo = $_SESSION['correo'];
-                echo "<div id='correo'><a href='login.php'><p id='pcorreo'>$correo</p></a></div>";
-            } else {
-                echo "<div id='login'>
-                        <a href='login.html'><input type='button' id='inicio' value='Inicio Sesion'></a>
-                    </div>";
-            }
-            ?>       
         </div>
     </div>
     <div id="fondo">
-    <div id=contmenu></div>
-        <div id="menu">
-            <table border=1 id="mitabla">
-                <thead bgcolor="grey">
-                    <tr>
-                        <?php
-                            $query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'proyecto_php_edu' AND TABLE_NAME = 'menu' AND COLUMN_NAME != 'id_menu'";
-                            $resultado = mysqli_query($c, $query);
-                            while ($fila = mysqli_fetch_assoc($resultado)) {
-                            echo "<th>" . $fila['COLUMN_NAME'] . "</th>";
-                            }
-                        ?>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                        $query = "SELECT plato, descripcion, precio FROM proyecto_php_edu.menu";
-                        $resultado = mysqli_query($c, $query);
-                        while ($fila = mysqli_fetch_assoc($resultado)) {
-                        echo "<tr>";
-                        echo "<td>" . $fila['plato'] . "</td>";
-                        echo "<td>" . $fila['descripcion'] . "</td>";
-                        echo "<td>" . $fila['precio'] . "</td>";
-                        echo "</tr>";
-                        }
-                    ?>
-                </tbody>
-            </table>
+        <div id="divlogin">
+            <form id="nuevoForm" method="POST" action="nuevoaction.php">
+                <img src="./imagenes/añadirusuarios.png" id="imgLogin">
+                
+                <div>
+                    <label for="emal">Email:</label>
+                    <input type="email" id="email" name="email" required placeholder="jhon.doe@gmail.com"><br>
+                </div>
+               
+                <div>
+                    <label for="pass">Contraseña:</label>
+                    <input type="password" id="pass" name="pass" required placeholder="********"><br>
+                </div>
+
+                <div>
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required placeholder="Jhon"><br>
+                </div>
+
+                <div>
+                    <label for="tlf">Telefono:</label>
+                    <input type="number" id="tlf" name="tlf" required placeholder="666-333-999"><br>
+                </div>
+
+                <div class="button-container">
+                    <input type="submit" value="ENVIAR"> <input type="reset" value="BORRAR">
+                </div>
+              
+            </form>
         </div>
-        <div id="foto">
-            <img src="./imagenes/menucomidas.png" id="fotomenu">
-        </div>
-     </div>    
     </div>
     <div id="pie">
         <div id="iconos">
@@ -173,6 +155,9 @@
             </svg>
         </div>
     </div>
+</body>
+
+</html>
 </body>
 
 </html>

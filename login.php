@@ -9,7 +9,7 @@
 <body>
     <div id="cabecera">       
         <div id="logo">
-            <a href="index.html"><img src="./imagenes/logo.png" id="imlogo"></a>
+            <a href="index.php"><img src="./imagenes/logo.png" id="imlogo"></a>
         </div>
         <div id="titulo">
             <h1 id="t1">Lobby Food</h1>
@@ -19,7 +19,7 @@
     </div>
     <div id="fondo">
         <div id="divlogin">
-            <form id="loginForm" method="POST" action="login.php">
+            <form id="loginForm" method="POST" action="loginaction.php">
                     <img src="./imagenes/login.png" id="imgLogin">
 
                     
@@ -33,7 +33,7 @@
                         <input type="submit" value="ENVIAR"> <input type="reset" value="BORRAR">
                     </div>
                     <br>
-                    <a href="nuevousuario.html" id="nueva">Click, para Nueva Cuenta</a>
+                    <a href="nuevo.php" id="nueva">Click, para Nueva Cuenta</a>
             </form>
         </div>
     </div>

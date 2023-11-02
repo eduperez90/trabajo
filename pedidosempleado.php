@@ -1,25 +1,45 @@
-<?php include 'conexion.php';
-   $c = conectar();
+<?php
+include 'conexion.php';
+$c = conectar();
+if(isset($_POST['modificar'])){
+    $id_pedido = $_POST['id_pedido'];
+    $email = $_POST['email'];
+    $fecha = $_POST['fecha'];
+    $total = $_POST['total'];
+    $p_online = $_POST['p_online'];
+    $query = "UPDATE proyecto_php_edu.pedidos SET email='$email', fecha='$fecha', total='$total', p_online='$p_online' WHERE id_pedido='$id_pedido'";
+    mysqli_query($c, $query);
+}
+if(isset($_POST['eliminar'])){
+    $id_pedido = $_POST['id_pedido'];
+    $query = "DELETE FROM proyecto_php_edu.pedidos WHERE id_pedido='$id_pedido'";
+    mysqli_query($c, $query);
+}
+if(isset($_POST['insertar'])){
+    $email = $_POST['email'];
+    $fecha = $_POST['fecha'];
+    $total = $_POST['total'];
+    $p_online = $_POST['p_online'];
+    $query = "INSERT INTO proyecto_php_edu.pedidos (email, fecha, total, p_online) VALUES ('$email', '$fecha', '$total', '$p_online')";
+    mysqli_query($c, $query);
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby Food</title>
     <link rel="stylesheet" type="text/css" href="./estilos/carta.css">
 </head>
-
 <body>
     <div id="cabecera">
         <div id="logo">
-            <a href="index.php"><img src="./imagenes/logo.png" id="imlogo"></a>
+            <a href="indexempleado.php"><img src="./imagenes/logo.png" id="imlogo"></a>
         </div>
         <div id="titulo">
             <h1 id="t1">Lobby Food</h1>
         </div>
-        
         <div id="botones">
             <?php
             session_start();
@@ -39,28 +59,41 @@
         <div id="menu">
             <table border=1 id="mitabla">
                 <thead bgcolor="grey">
-                    <tr>
-                        <?php
-                            $query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'proyecto_php_edu' AND TABLE_NAME = 'menu' AND COLUMN_NAME != 'id_menu'";
-                            $resultado = mysqli_query($c, $query);
-                            while ($fila = mysqli_fetch_assoc($resultado)) {
-                            echo "<th>" . $fila['COLUMN_NAME'] . "</th>";
-                            }
-                        ?>
+                    <tr>                    
+                        <th>PEDIDOS</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                        $query = "SELECT plato, descripcion, precio FROM proyecto_php_edu.menu";
+                        $query = "SELECT id_pedido, email, fecha, total, p_online FROM proyecto_php_edu.pedidos";
                         $resultado = mysqli_query($c, $query);
                         while ($fila = mysqli_fetch_assoc($resultado)) {
                         echo "<tr>";
-                        echo "<td>" . $fila['plato'] . "</td>";
-                        echo "<td>" . $fila['descripcion'] . "</td>";
-                        echo "<td>" . $fila['precio'] . "</td>";
+                        echo "<td>
+                                <form method='post' action=''>
+                                    <input type='hidden' name='id_pedido' value='" . $fila['id_pedido'] . "'>
+                                    <input type='text' name='email' value='" . $fila['email'] . "'>
+                                    <input type='date' name='fecha' value='" . $fila['fecha'] . "'>
+                                    <input type='text' name='total' value='" . $fila['total'] . "'>
+                                    <input type='text' name='p_online' value='" . $fila['p_online'] . "'>
+                                    <input type='submit' name='modificar' value='Modificar'>
+                                    <input type='submit' name='eliminar' value='Eliminar'>
+                                </form>
+                              </td>";
                         echo "</tr>";
                         }
                     ?>
+                    <tr>
+                        <td>
+                            <form method='post' action=''>
+                                <input type='text' name='email' placeholder='Email'>
+                                <input type='date' name='fecha' placeholder='Fecha'>
+                                <input type='text' name='total' placeholder='Total'>
+                                <input type='text' name='p_online' placeholder='1 domicilio 0 recoger'>
+                                <input type='submit' name='insertar' value='Insertar'>
+                            </form>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

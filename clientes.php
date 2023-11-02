@@ -1,25 +1,45 @@
-<?php include 'conexion.php';
-   $c = conectar();
+<?php
+include 'conexion.php';
+$c = conectar();
+if(isset($_POST['modificar'])){
+    $id_cliente = $_POST['id_cliente'];
+    $nombre = $_POST['nombre'];
+    $telefono = $_POST['telefono'];
+    $email = $_POST['email'];
+    $pass = $_POST['pass'];
+    $query = "UPDATE proyecto_php_edu.clientes SET nombre='$nombre', telefono='$telefono', email='$email', pass='$pass' WHERE id_cliente='$id_cliente'";
+    mysqli_query($c, $query);
+}
+if(isset($_POST['eliminar'])){
+    $id_cliente = $_POST['id_cliente'];
+    $query = "DELETE FROM proyecto_php_edu.clientes WHERE id_cliente='$id_cliente'";
+    mysqli_query($c, $query);
+}
+if(isset($_POST['insertar'])){
+    $nombre = $_POST['nombre'];
+    $telefono = $_POST['telefono'];
+    $email = $_POST['email'];
+    $pass = $_POST['pass'];
+    $query = "INSERT INTO proyecto_php_edu.clientes (nombre, telefono, email, pass) VALUES ('$nombre', '$telefono', '$email', '$pass')";
+    mysqli_query($c, $query);
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby Food</title>
     <link rel="stylesheet" type="text/css" href="./estilos/carta.css">
 </head>
-
 <body>
     <div id="cabecera">
         <div id="logo">
-            <a href="index.php"><img src="./imagenes/logo.png" id="imlogo"></a>
+            <a href="indexempleado.php"><img src="./imagenes/logo.png" id="imlogo"></a>
         </div>
         <div id="titulo">
             <h1 id="t1">Lobby Food</h1>
         </div>
-        
         <div id="botones">
             <?php
             session_start();
@@ -39,28 +59,41 @@
         <div id="menu">
             <table border=1 id="mitabla">
                 <thead bgcolor="grey">
-                    <tr>
-                        <?php
-                            $query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = 'proyecto_php_edu' AND TABLE_NAME = 'menu' AND COLUMN_NAME != 'id_menu'";
-                            $resultado = mysqli_query($c, $query);
-                            while ($fila = mysqli_fetch_assoc($resultado)) {
-                            echo "<th>" . $fila['COLUMN_NAME'] . "</th>";
-                            }
-                        ?>
+                    <tr>                    
+                        <th>CLIENTES</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                        $query = "SELECT plato, descripcion, precio FROM proyecto_php_edu.menu";
+                        $query = "SELECT id_cliente, nombre, telefono, email, pass FROM proyecto_php_edu.clientes";
                         $resultado = mysqli_query($c, $query);
                         while ($fila = mysqli_fetch_assoc($resultado)) {
                         echo "<tr>";
-                        echo "<td>" . $fila['plato'] . "</td>";
-                        echo "<td>" . $fila['descripcion'] . "</td>";
-                        echo "<td>" . $fila['precio'] . "</td>";
+                        echo "<td>
+                                <form method='post' action=''>
+                                    <input type='hidden' name='id_cliente' value='" . $fila['id_cliente'] . "'>
+                                    <input type='text' name='nombre' value='" . $fila['nombre'] . "'>
+                                    <input type='text' name='telefono' value='" . $fila['telefono'] . "'>
+                                    <input type='text' name='email' value='" . $fila['email'] . "'>
+                                    <input type='text' name='pass' value='" . $fila['pass'] . "'>
+                                    <input type='submit' name='modificar' value='Modificar'>
+                                    <input type='submit' name='eliminar' value='Eliminar'>
+                                </form>
+                              </td>";
                         echo "</tr>";
                         }
                     ?>
+                    <tr>
+                        <td>
+                            <form method='post' action=''>
+                                <input type='text' name='nombre' placeholder='Nombre'>
+                                <input type='text' name='telefono' placeholder='Teléfono'>
+                                <input type='text' name='email' placeholder='Email'>
+                                <input type='text' name='pass' placeholder='Contraseña'>
+                                <input type='submit' name='insertar' value='Insertar'>
+                            </form>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

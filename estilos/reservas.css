@@ -14,6 +14,15 @@ body {
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.6);
 }
 
+#botones {
+    display: block;
+    margin-right: 40px;
+}
+
+#pcorreo{
+    color: white;
+    
+}
 #titulo {
     flex: 1;
 }
@@ -47,14 +56,36 @@ body {
     justify-content: center;
 }
 
-#fondo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+svg {
+    padding: 20px;
+    height: 40px;
+    width: 40px;
 }
 
-#loginForm {
-    margin: 0px;
+#fondo {
+    flex-grow: 1;
+    display: flex;
+    align-items: center
+}
+
+#menu {
+    flex: 1;
+    text-align: center;
+    margin: 30px;
+    padding: 30px;
+    height: 200px;
+    background-repeat: no-repeat;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.6);
+    border-radius: 20px;
+}
+
+a {
+    text-decoration: none;
+}
+
+  #reserva {
+    margin-left: 100px;
+    margin-right: 300px;
     width: 400px;
     height: 400px;
     padding: 20px;
@@ -65,47 +96,9 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    line-height: 2;
 }
 
-#tLogin {
-    color: white;
-    text-align: center;
-    font-size: 45px;
-    margin-top: 0px;
+#logoreserva{
+    width: 100px;
+    height: 100px;
 }
-
-svg {
-    padding: 20px;
-    height: 40px;
-    width: 40px;
-}
-
-#inicio:hover {
-    background-color: rgb(193, 193, 252);
-    color: black;
-}
-
-#imgLogin {
-    margin: 0px;
-    padding: 0px;
-
-}
-
-#fondo {
-    flex-grow: 1;
-}
-
-a{
-    text-decoration: none;
-}
-
-#loginForm label {
-    margin-right: auto; /* Ajusta el valor según la separación deseada */
-    margin-left: auto;
-  }
-  
-  #loginForm input {
-    margin-right: auto; /* Ajusta el valor según la separación deseada */
-    margin-left: auto;
-  }
