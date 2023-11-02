@@ -1,7 +1,8 @@
 <?php
 include 'conexion.php';
 $c = conectar();
-if(isset($_POST['modificar'])){
+
+if (isset($_POST['modificar_pedido'])) {
     $id_pedido = $_POST['id_pedido'];
     $email = $_POST['email'];
     $fecha = $_POST['fecha'];
@@ -10,17 +11,45 @@ if(isset($_POST['modificar'])){
     $query = "UPDATE proyecto_php_edu.pedidos SET email='$email', fecha='$fecha', total='$total', p_online='$p_online' WHERE id_pedido='$id_pedido'";
     mysqli_query($c, $query);
 }
-if(isset($_POST['eliminar'])){
+
+if (isset($_POST['eliminar_pedido'])) {
     $id_pedido = $_POST['id_pedido'];
     $query = "DELETE FROM proyecto_php_edu.pedidos WHERE id_pedido='$id_pedido'";
     mysqli_query($c, $query);
 }
-if(isset($_POST['insertar'])){
+
+if (isset($_POST['insertar_pedido'])) {
     $email = $_POST['email'];
     $fecha = $_POST['fecha'];
     $total = $_POST['total'];
     $p_online = $_POST['p_online'];
     $query = "INSERT INTO proyecto_php_edu.pedidos (email, fecha, total, p_online) VALUES ('$email', '$fecha', '$total', '$p_online')";
+    mysqli_query($c, $query);
+}
+
+if (isset($_POST['modificar_detalle'])) {
+    $id_detalle = $_POST['id_detalle'];
+    $id_menu = $_POST['id_menu'];
+    $plato = $_POST['plato'];
+    $cantidad = $_POST['cantidad'];
+    $subtotal = $_POST['subtotal'];
+    $query = "UPDATE proyecto_php_edu.detalles SET id_menu='$id_menu', plato='$plato', cantidad='$cantidad', subtotal='$subtotal' WHERE id_detalle='$id_detalle'";
+    mysqli_query($c, $query);
+}
+
+if (isset($_POST['eliminar_detalle'])) {
+    $id_detalle = $_POST['id_detalle'];
+    $query = "DELETE FROM proyecto_php_edu.detalles WHERE id_detalle='$id_detalle'";
+    mysqli_query($c, $query);
+}
+
+if (isset($_POST['insertar_detalle'])) {
+    $id_pedido = $_POST['id_pedido'];
+    $id_menu = $_POST['id_menu'];
+    $plato = $_POST['plato'];
+    $cantidad = $_POST['cantidad'];
+    $subtotal = $_POST['subtotal'];
+    $query = "INSERT INTO proyecto_php_edu.detalles (id_pedido, id_menu, plato, cantidad, subtotal) VALUES ('$id_pedido', '$id_menu', '$plato', '$cantidad', '$subtotal')";
     mysqli_query($c, $query);
 }
 ?>
@@ -30,7 +59,7 @@ if(isset($_POST['insertar'])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lobby Food</title>
-    <link rel="stylesheet" type="text/css" href="./estilos/carta.css">
+    <link rel="stylesheet" type="text/css" href="./estilos/pedidosempleado.css">
 </head>
 <body>
     <div id="cabecera">
@@ -55,7 +84,7 @@ if(isset($_POST['insertar'])){
         </div>
     </div>
     <div id="fondo">
-    <div id=contmenu></div>
+        <div id=contmenu>
         <div id="menu">
             <table border=1 id="mitabla">
                 <thead bgcolor="grey">
@@ -65,22 +94,22 @@ if(isset($_POST['insertar'])){
                 </thead>
                 <tbody>
                     <?php
-                        $query = "SELECT id_pedido, email, fecha, total, p_online FROM proyecto_php_edu.pedidos";
-                        $resultado = mysqli_query($c, $query);
-                        while ($fila = mysqli_fetch_assoc($resultado)) {
-                        echo "<tr>";
-                        echo "<td>
-                                <form method='post' action=''>
-                                    <input type='hidden' name='id_pedido' value='" . $fila['id_pedido'] . "'>
-                                    <input type='text' name='email' value='" . $fila['email'] . "'>
-                                    <input type='date' name='fecha' value='" . $fila['fecha'] . "'>
-                                    <input type='text' name='total' value='" . $fila['total'] . "'>
-                                    <input type='text' name='p_online' value='" . $fila['p_online'] . "'>
-                                    <input type='submit' name='modificar' value='Modificar'>
-                                    <input type='submit' name='eliminar' value='Eliminar'>
-                                </form>
-                              </td>";
-                        echo "</tr>";
+                        $query_pedidos = "SELECT id_pedido, email, fecha, total, p_online FROM proyecto_php_edu.pedidos";
+                        $resultado_pedidos = mysqli_query($c, $query_pedidos);
+                        while ($fila_pedidos = mysqli_fetch_assoc($resultado_pedidos)) {
+                            echo "<tr>";
+                            echo "<td>";
+                            echo "<form method='post' action=''>";
+                            echo "<input type='hidden' name='id_pedido' value='" . $fila_pedidos['id_pedido'] . "'>";
+                            echo "<input type='text' name='email' value='" . $fila_pedidos['email'] . "'>";
+                            echo "<input type='date' name='fecha' value='" . $fila_pedidos['fecha'] . "'>";
+                            echo "<input type='text' name='total' value='" . $fila_pedidos['total'] . "'>";
+                            echo "<input type='text' name='p_online' value='" . $fila_pedidos['p_online'] . "'>";
+                            echo "<input type='submit' name='modificar_pedido' value='Modificar'>";
+                            echo "<input type='submit' name='eliminar_pedido' value='Eliminar'>";
+                            echo "</form>";
+                            echo "</td>";
+                            echo "</tr>";
                         }
                     ?>
                     <tr>
@@ -90,17 +119,60 @@ if(isset($_POST['insertar'])){
                                 <input type='date' name='fecha' placeholder='Fecha'>
                                 <input type='text' name='total' placeholder='Total'>
                                 <input type='text' name='p_online' placeholder='1 domicilio 0 recoger'>
-                                <input type='submit' name='insertar' value='Insertar'>
+                                <input type='submit' name='insertar_pedido' value='Insertar'>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <table border=1 id="mitabla">
+                <thead bgcolor="grey">
+                    <tr>                    
+                        <th>DETALLES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        $query_detalles = "SELECT id_detalle, id_pedido, id_menu, plato, cantidad, subtotal FROM proyecto_php_edu.detalles";
+                        $resultado_detalles = mysqli_query($c, $query_detalles);
+                        while ($fila_detalles = mysqli_fetch_assoc($resultado_detalles)) {
+                            echo "<tr>";
+                            echo "<td>";
+                            echo "<form method='post' action=''>";
+                            echo "<input type='hidden' name='id_detalle' value='" . $fila_detalles['id_detalle'] . "'>";
+                            echo "<input type='hidden' name='id_pedido' value='" . $fila_detalles['id_pedido'] . "'>";
+                            echo "<input type='text' name='id_menu' value='" . $fila_detalles['id_menu'] . "'>";
+                            echo "<input type='text' name='plato' value='" . $fila_detalles['plato'] . "'>";
+                            echo "<input type='text' name='cantidad' value='" . $fila_detalles['cantidad'] . "'>";
+                            echo "<input type='text' name='subtotal' value='" . $fila_detalles['subtotal'] . "'>";
+                            echo "<input type='submit' name='modificar_detalle' value='Modificar'>";
+                            echo "<input type='submit' name='eliminar_detalle' value='Eliminar'>";
+                            echo "</form>";
+                            echo "</td>";
+                            echo "</tr>";
+                        }
+                    ?>
+                    <tr>
+                        <td>
+                            <form method='post' action=''>
+                                <input type='hidden' name='id_pedido' value='<?php echo $id_pedido_actual; ?>'>
+                                <input type='text' name='id_menu' placeholder='ID del menú'>
+                                <input type='text' name='plato' placeholder='Plato'>
+                                <input type='text' name='cantidad' placeholder='Cantidad'>
+                                <input type='text' name='subtotal' placeholder='Subtotal'>
+                                <input type='submit' name='insertar_detalle' value='Insertar'>
                             </form>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        </div>
         <div id="foto">
             <img src="./imagenes/menucomidas.png" id="fotomenu">
         </div>
-     </div>    
+    
     </div>
     <div id="pie">
         <div id="iconos">
